@@ -28,11 +28,11 @@ sound_button = pygame.Rect(PIXEL + PIXEL // 3 * 4, PIXEL * 2 - 50, PIXEL //3 * 2
 pygame.draw.rect(screen,(137, 114, 84), sound_button,45,15)
 screen.blit(sound_emoji, (PIXEL + PIXEL // 3 * 4 + 10, PIXEL * 2 - 40))
 
-score_button = pygame.Rect(PIXEL, PIXEL * (SIZE - 1),PIXEL * 2 , PIXEL // 3 * 2)#score board 버튼
-pygame.draw.rect(screen,(137, 114, 84), score_button,45,15)
-score_font = pygame.font.Font(None, 50)
-score = score_font.render("SCORE BOARD", True, (0, 0, 0))
-screen.blit(score, (PIXEL + 8 , PIXEL * (SIZE - 1) + PIXEL // 4))
+restart_button = pygame.Rect(PIXEL, PIXEL * (SIZE - 1),PIXEL * 2 , PIXEL // 3 * 2)#restart버튼
+pygame.draw.rect(screen,(137, 114, 84), restart_button,45,15)
+restart_font = pygame.font.Font(None, 50)
+restart = restart_font.render("RESTART", True, (0, 0, 0))
+screen.blit(restart, (PIXEL + PIXEL // 3 + 10, PIXEL * (SIZE - 1) + PIXEL // 4))
 
 quit_button = pygame.Rect(PIXEL, PIXEL * SIZE, PIXEL * 2 , PIXEL // 3 * 2)#종료 버튼
 pygame.draw.rect(screen,(137, 114, 84), quit_button,45,15)
