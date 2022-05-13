@@ -5,18 +5,21 @@ SCORE_PIXEL = 185
 SIZE = 4
 
 def display_start_screen():
+  pygame.display.set_caption("2048 START")
   global start_button
   background = pygame.image.load("C:/Users/hth09/OneDrive/바탕 화면/desktop/2048/start_screen.jpg")
   screen.blit(background, (0,0))
   start_button = pygame.Rect(150, 550, 250 , 100)#종료 버튼
 
 def display_game_screen():
+  pygame.display.set_caption("2048")
   global option_button
   background = pygame.image.load("C:/Users/hth09/OneDrive/바탕 화면/desktop/2048/main.jpg")
   screen.blit(background, (0,0))
   option_button = pygame.Rect(460, 130, 50 , 50)
 
 def display_option_screen():
+  pygame.display.set_caption("2048 OPTION")
   global quit_button
   background = pygame.image.load("C:/Users/hth09/OneDrive/바탕 화면/desktop/2048/background.png")
   screen.blit(background, (0,0))
