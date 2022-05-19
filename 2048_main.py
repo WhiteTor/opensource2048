@@ -30,10 +30,10 @@ def display_game_screen():
 def create_block_1():
   b_image.append(pygame.image.load("block_c.png"))
   b_image.append(pygame.image.load("block_c++.png"))
-  screen.blit(b_image[0], block[loc1_y][loc1_x])
-  screen.blit(b_image[0], block[loc2_y][loc2_x])
-  if loc1_x == loc2_x and loc1_y == loc2_y:
-    screen.blit(b_image[1], block[loc1_y][loc1_x])
+  screen.blit(b_image[0], block[loc_y[0]][loc_x[0]])
+  screen.blit(b_image[0], block[loc_y[1]][loc_x[1]])
+  if loc_x[0] == loc_x[1] and loc_y[0] == loc_y[1]:
+    screen.blit(b_image[1], block[loc_y[0]][loc_x[0]])
 
 def display_rank_screen():
   global rank_quit_button
@@ -57,18 +57,22 @@ def display_option_screen():
   option_quit_button = pygame.Rect(130, 541, 280, 93)#종료 버튼
 
 pygame.init()
+count = 2
 block = []
 block.append([])
-loc1_x = random.randrange(0,4)
-loc1_y = random.randrange(0,4)
-loc2_x = random.randrange(0,4)
-loc2_y = random.randrange(0,4)
-while loc1_x == loc2_x and loc1_y == loc2_y:
-  loc2_x = random.randrange(0,4)
-  loc2_y = random.randrange(0,4)
+loc_x = []
+loc_x.append(random.randrange(0,4))
+loc_x.append(random.randrange(0,4))
+loc_y = []
+loc_y.append(random.randrange(0,4))
+loc_y.append(random.randrange(0,4))
+while loc_x[0] == loc_x[1] and loc_y[0] == loc_y[1]:
+  loc_x[1] = random.randrange(0,4)
+  loc_y[1] = random.randrange(0,4)
 b_image=[]
 screen_width = 540
 screen_height = 725
+clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode((screen_width, screen_height))#배경
 
@@ -78,6 +82,7 @@ option = False
 rank = False
 while running:
   click_pos = None
+  clock.tick(20)
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
@@ -109,32 +114,25 @@ while running:
       create_block_1()
       if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_UP:
-          while loc1_y != 0:
-            loc1_y -= 1
-          while loc2_y != 0:
-            loc2_y -= 1  
+          for i in range(len(loc_x)):
+            while loc_y[i] != 0:
+              loc_y[i] -= 1 
+              
 
         elif event.key == pygame.K_DOWN:
-          while loc1_y != 3:
-            loc1_y += 1
-          while loc2_y != 3:
-            loc2_y += 1
-          
+          for i in range(len(loc_x)):
+            while loc_y[i] != 3:
+              loc_y[i] += 1          
 
         elif event.key == pygame.K_LEFT:
-          while loc1_x != 0:
-            loc1_x -= 1
-          while loc2_x != 0:
-            loc2_x -= 1
-          
+          for i in range(len(loc_x)):
+            while loc_x[i] != 0:
+              loc_x[i] -= 1          
 
         elif event.key == pygame.K_RIGHT:
-          while loc1_x != 3:
-            loc1_x += 1
-          while loc2_x != 3:
-            loc2_x += 1
-        
-          
+          for i in range(len(loc_x)):
+            while loc_x[i] != 3:
+              loc_x[i] += 1        
     
       if click_pos:
           if option_button.collidepoint(click_pos):
