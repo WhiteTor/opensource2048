@@ -51,7 +51,7 @@ class Map:
       a[ : ] = b
     return changed
 
-  def rotate90(self): # map 좌표 회전
+  def rotate90(self):
     self.map = [[self.map[c][r] for c in range(self.size)] for r in reversed(range(self.size))]
   
   #       
@@ -69,14 +69,10 @@ class Map:
         if self.map[r][c] == self.map[r + 1][c]:
           return False
     return True
-  
-  def moveLeft(self):
-    self.rotate90()
-    if self.adjust(): #블럭이 합쳐졌다면 블럭 생성
+    
+  def moveUp(self):
+    if self.adjust():
       self.add()
-    self.rotate90()
-    self.rotate90()
-    self.rotate90()
   
   def moveDown(self):
     self.rotate90()
@@ -85,18 +81,23 @@ class Map:
       self.add()
     self.rotate90()
     self.rotate90()
-  
+
+  def moveLeft(self):
+    self.rotate90()
+    if self.adjust(): #블럭이 합쳐졌다면 블럭 생성
+      self.add()
+    self.rotate90()
+    self.rotate90()
+    self.rotate90()  
+
   def moveRight(self):
     self.rotate90()
     self.rotate90()
     self.rotate90()
     if self.adjust():
       self.add()
-    self.rotate90()
+    self.rotate90()  
   
-  def moveUp(self):
-    if self.adjust():
-      self.add()
 
   def create_block(self): #블럭 이미지 띄우기
     block = [[(37,211),(156,211),(275,211),(394,211)], # 각 블럭이 들어갈 좌표
