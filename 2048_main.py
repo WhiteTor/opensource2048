@@ -50,7 +50,7 @@ class Map:
       a[ : ] = b
     return changed
 
-  def rotate90(self):
+  def rotate90(self): # map 좌표 
     self.map = [[self.map[c][r] for c in range(self.size)] for r in reversed(range(self.size))]
   
   #       
