@@ -142,7 +142,7 @@ def display_game_screen():#게임메인 화면
   score_button = pygame.Rect(355, 74, 53, 29) 
   score_font = pygame.font.Font(None, 30)
   score = score_font.render(str(map.score), True, (0,0,0))
-  screen.blit(score, (378, 85))
+  screen.blit(score, (368, 85))
 
 def display_rank_screen(): # 랭킹화면
   global rank_quit_button # 랭킹화면에서 나가는 버튼
@@ -182,11 +182,11 @@ def display_rank_screen(): # 랭킹화면
 def display_game_over():
   pygame.display.set_caption("GAME OVER")
   global click_button 
-  background = pygame.image.load("game_over.png") # 게임오버 배경이미지 로드
+  background = pygame.image.load("game_over.jpg") # 게임오버 배경이미지 로드
   screen.blit(background, (0,0)) # 게임오버 배경 이미지 적용
-  score_font = pygame.font.Font(None, 140)
+  score_font = pygame.font.Font(None, 40)
   score = score_font.render(str(map.score), True, (0,0,0))
-  screen.blit(score, (200, 300))
+  screen.blit(score, (325, 253))
 
   click_button = pygame.Rect(358,635,155,63)
 
