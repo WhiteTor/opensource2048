@@ -19,6 +19,7 @@ class Map:
         break
   
   def add(self): # 블럭 생성(c or c++)
+    move.play()
     while True:
       px = random.randint(0, 3)
       py = random.randint(0, 3)
@@ -50,7 +51,7 @@ class Map:
       a[ : ] = b
     return changed
 
-  def rotate90(self): # map 좌표 
+  def rotate90(self): # map 좌표 회전
     self.map = [[self.map[c][r] for c in range(self.size)] for r in reversed(range(self.size))]
   
   #       
@@ -230,6 +231,7 @@ running = True
 option = False # 옵션화면 트리거
 rank = False # 랭킹화면 트리거
 bsound = True
+effect = True
 while running:
   click_pos = None # 클릭 좌표
   clock.tick(10)# 속도 조절
@@ -262,7 +264,7 @@ while running:
           else:
             bgm.play(-1)
             bsound = True
-
+            
       if click_pos: # 옵션 화면에서 옵션 quit버튼을 누르면 옵션을 False로
         if option_quit_button.collidepoint(click_pos):
           button_sound.play()
@@ -286,7 +288,6 @@ while running:
       display_game_screen()
       map.create_block() # 블럭 두개 생성
       if event.type == pygame.KEYDOWN: # 키보드를 눌렀을 때
-        move.play()
         if event.key == pygame.K_UP: # up이면
           map.moveUp()
 
