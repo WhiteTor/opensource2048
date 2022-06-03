@@ -19,7 +19,8 @@ class Map:
         break
   
   def add(self): # 블럭 생성(c or c++)
-    move.play()
+    if effect:
+      move.play()
     while True:
       px = random.randint(0, 3)
       py = random.randint(0, 3)
@@ -146,6 +147,7 @@ def display_game_screen():#게임메인 화면
 
 def display_rank_screen(): # 랭킹화면
   global rank_quit_button # 랭킹화면에서 나가는 버튼
+  global rank_restart_button
   pygame.display.set_caption("2048 RANKING")
   background = pygame.image.load("Ranking.png") # 이미지 로드
   screen.blit(background, (0,0)) # 이미지 적용
@@ -178,6 +180,7 @@ def display_rank_screen(): # 랭킹화면
       y += 68
   
   rank_quit_button = pygame.Rect(387, 660, 132, 42) # rank_quit버튼 위치 설정
+  rank_restart_button = pygame.Rect(242, 660, 132, 42)
 
 def display_game_over():
   pygame.display.set_caption("GAME OVER")
@@ -209,17 +212,17 @@ def display_option_screen():
   background = pygame.image.load("option.png") # 옵션 배경이미지 로드
   screen.blit(background, (0,0)) # 옵션 배경 이미지 적용
 
-  bgm_button = pygame.Rect(130,216,94,94)
-  sound_button = pygame.Rect(316, 410, 94, 94)
+  sound_button = pygame.Rect(130,216,94,94)
+  bgm_button = pygame.Rect(316, 216, 94, 94)
   restart_button = pygame.Rect(130, 404, 280, 93)#restart버튼
   option_quit_button = pygame.Rect(130, 541, 280, 93)# 옵션 종료 버튼
 
 pygame.mixer.pre_init()  
 pygame.init()
-bgm = pygame.mixer.Sound("bgm.wav")
+pygame.mixer.music.load("bgm.wav")
 button_sound = pygame.mixer.Sound("button_se.wav")
 move = pygame.mixer.Sound("action_Se.wav")
-bgm.play(-1)
+pygame.mixer.music.play(-1)
 screen_width = 540 # 스크린 화면 크기 (540 X 725)
 screen_height = 725
 
@@ -243,11 +246,11 @@ while running:
     elif event.type == pygame.MOUSEBUTTONUP: # 마우스 버튼 클릭하면
       click_pos = pygame.mouse.get_pos() # 마우스 좌표를 click_pos에 저장
 
-
   if click_pos:
     if start_button.collidepoint(click_pos): # 시작 버튼을 누르면 start를 True로
-      button_sound.play()
-      if start is False:
+      if effect:
+        button_sound.play()
+      if start == False:
         map = Map()
       start = True
       
@@ -258,32 +261,36 @@ while running:
 
       if click_pos:
         if bgm_button.collidepoint(click_pos):
-          button_sound.play()
+          if effect:
+            button_sound.play()
           if bsound:
-            bgm.stop()
+            pygame.mixer.music.pause()
             bsound = False
           else:
-            bgm.play(-1)
+            pygame.mixer.music.unpause()
             bsound = True
+      
+      if click_pos:
+        if sound_button.collidepoint(click_pos):
+          if effect:
+            effect = False
+          else:
+            effect = True
+            button_sound.play()
+
             
       if click_pos: # 옵션 화면에서 옵션 quit버튼을 누르면 옵션을 False로
         if option_quit_button.collidepoint(click_pos):
-          button_sound.play()
+          if effect:
+            button_sound.play()
           option = False
 
       if click_pos: # 옵션 화면에서 옵션 quit버튼을 누르면 옵션을 False로
         if restart_button.collidepoint(click_pos):
-          button_sound.play()
+          if effect:
+            button_sound.play()
           map = Map()
           option = False
-
-    elif rank: # 확인을 위한 부분 (무시해주세요)
-        display_rank_screen()
-
-        if click_pos:
-          if rank_quit_button.collidepoint(click_pos):
-            button_sound.play()
-            rank = False
 
     else: # 옵션 화면이 아니라면 게임 화면
       display_game_screen()
@@ -305,34 +312,74 @@ while running:
       for i in map.map:
         for j in i:
           if j == 2048:
-            display_clear_screen()
+            if rank: # 확인을 위한 부분 (무시해주세요)
+              display_rank_screen()
+              if click_pos:
+                if rank_quit_button.collidepoint(click_pos):
+                  if effect:
+                    button_sound.play()
+                  rank = False
+                  start = False
+              
+              if click_pos:
+                if rank_restart_button.collidepoint(click_pos):
+                  if effect:
+                    button_sound.play()
+
+                  map = Map()
+                  rank = False
+                  start = False
+                  start = True
+                  
+
+            else:
+              display_clear_screen()
             
-            if click_pos:
-              if clear_button.collidepoint(click_pos): # 시작 버튼을 누르면 start를 True로
-                button_sound.play()
-                start = False
+              if click_pos:
+                if clear_button.collidepoint(click_pos): # 시작 버튼을 누르면 start를 True로
+                  if effect:
+                    button_sound.play()
+                  rank = True
 
 
 
 
       if map.over():
-        display_game_over()
-      
-        
-        if click_pos:
-          if click_button.collidepoint(click_pos): # 시작 버튼을 누르면 start를 True로
-            button_sound.play()
-            start = False
+        if rank: # 확인을 위한 부분 (무시해주세요)
+          display_rank_screen()
+
+          if click_pos:
+            if rank_quit_button.collidepoint(click_pos):
+              if effect:
+                button_sound.play()
+              rank = False
+              start = False
+
+          if click_pos:
+            if rank_restart_button.collidepoint(click_pos):
+              if effect:
+                button_sound.play()
+
+              map = Map()
+              rank = False
+              start = False
+              start = True
+
+        else:
+          display_game_over()
+          if click_pos:
+            if click_button.collidepoint(click_pos): # 시작 버튼을 누르면 start를 True로
+              if effect:
+                button_sound.play()
+              rank = True
 
 
     
       if click_pos: # 마우스를 클릭했을때
           if option_button.collidepoint(click_pos): # 옵션버튼을 누르면 옵션을 True로
-            button_sound.play()
+            if effect:
+              button_sound.play()
             option = True
-          elif score_button.collidepoint(click_pos): # 스코어 화면 전환 디버깅을 위한 버튼
-            button_sound.play()
-            rank = True
 
   else: # default로 시자화면 출력
     display_start_screen()
